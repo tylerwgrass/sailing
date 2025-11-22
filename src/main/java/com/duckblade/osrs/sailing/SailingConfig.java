@@ -235,7 +235,8 @@ public interface SailingConfig extends Config
 		name = "Show Item Count",
 		description = "Shows total item counts over the cargo hold.",
 		section = SECTION_CARGO_HOLD_TRACKING,
-		position = 1
+		position = 1,
+		hidden = true // todo
 	)
 	default boolean cargoHoldShowCounts()
 	{
