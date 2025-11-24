@@ -100,7 +100,7 @@ public class CurrentDuckTaskTracker
 
 		if (activeTask.isComplete(client))
 		{
-			activeTask = null;
+			setActiveTask(null);
 		}
 	}
 
