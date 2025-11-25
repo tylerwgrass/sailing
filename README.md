@@ -1,5 +1,10 @@
 # Sailing
 
+[![Active Installs](http://img.shields.io/endpoint?url=https://api.runelite.net/pluginhub/shields/installs/plugin/sailing)](https://runelite.net/plugin-hub/show/sailing)
+[![Plugin Rank](http://img.shields.io/endpoint?url=https://api.runelite.net/pluginhub/shields/rank/plugin/sailing)](https://runelite.net/plugin-hub/show/sailing)
+
+[!["Buy Me A Coffee"](https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png)](https://www.buymeacoffee.com/LlemonDuck)
+
 Take to the sea
 
 ### Sea Charting Highlighting
