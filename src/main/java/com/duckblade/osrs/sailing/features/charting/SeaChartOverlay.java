@@ -16,7 +16,6 @@ import net.runelite.api.Client;
 import net.runelite.api.GameObject;
 import net.runelite.api.NPC;
 import net.runelite.api.Perspective;
-import net.runelite.api.Quest;
 import net.runelite.api.QuestState;
 import net.runelite.api.Skill;
 import net.runelite.api.coords.LocalPoint;
@@ -103,7 +102,7 @@ public class SeaChartOverlay
 
 			boolean completed = task.isComplete(client);
 			boolean meetsRequirements = hasTaskRequirement(task);
-			if (!shouldRenderOverlay(mode, completed, meetsRequirements))
+			if (taskIsHidden(mode, completed, meetsRequirements))
 			{
 				continue;
 			}
@@ -124,7 +123,7 @@ public class SeaChartOverlay
 
 			boolean completed = task.isComplete(client);
 			boolean meetsRequirements = hasTaskRequirement(task);
-			if (!shouldRenderOverlay(mode, completed, meetsRequirements))
+			if (taskIsHidden(mode, completed, meetsRequirements))
 			{
 				continue;
 			}
@@ -205,11 +204,6 @@ public class SeaChartOverlay
 
 	private boolean hasTaskRequirement(SeaChartTask task)
 	{
-		if (Quest.PANDEMONIUM.getState(client) != QuestState.FINISHED)
-		{
-			return false;
-		}
-
 		var questRequirement = taskIndex.getTaskQuestRequirement(task);
 		if (questRequirement.getState(client) != QuestState.FINISHED)
 		{
@@ -234,21 +228,24 @@ public class SeaChartOverlay
 		return colorRequirementsUnmet;
 	}
 
-	private boolean shouldRenderOverlay(SailingConfig.ShowChartsMode mode, boolean completed, boolean meetsRequirements)
+	private boolean taskIsHidden(SailingConfig.ShowChartsMode mode, boolean completed, boolean meetsRequirements)
 	{
 		switch (mode)
 		{
 			case ALL:
-				return true;
-			case CHARTED:
-				return completed;
-			case UNCHARTED:
-				return !completed;
-			case REQUIREMENTS_MET:
-				return !completed && meetsRequirements;
-			case NONE:
-			default:
 				return false;
+
+			case CHARTED:
+				return !completed;
+
+			case UNCHARTED:
+				return completed;
+
+			case REQUIREMENTS_MET:
+				return completed || !meetsRequirements;
+
+			default:
+				return true;
 		}
 	}
 }

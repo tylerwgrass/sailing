@@ -202,11 +202,13 @@ public class SeaChartTaskIndex implements PluginLifecycleComponent
 		{
 			case ObjectID.SAILING_CHARTING_HINT_MARKER_DUCK:
 				return Quest.CURRENT_AFFAIRS;
+
 			case ObjectID.SAILING_CHARTING_DRINK_CRATE:
 				return Quest.PRYING_TIMES;
+
 			case -1:
 				break;
-			case ObjectID.SAILING_CHARTING_HINT_MARKER_SPYGLASS:
+
 			default:
 				return Quest.PANDEMONIUM;
 		}
@@ -219,7 +221,7 @@ public class SeaChartTaskIndex implements PluginLifecycleComponent
 			case NpcID.SAILING_CHARTING_MERMAID_GUIDE_4:
 			case NpcID.SAILING_CHARTING_MERMAID_GUIDE_5:
 				return Quest.RECIPE_FOR_DISASTER__PIRATE_PETE;
-			case NpcID.SAILING_CHARTING_WEATHER_TROLL:
+
 			default:
 				return Quest.PANDEMONIUM;
 		}
