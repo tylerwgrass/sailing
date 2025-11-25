@@ -16,6 +16,8 @@ import net.runelite.api.Client;
 import net.runelite.api.GameObject;
 import net.runelite.api.NPC;
 import net.runelite.api.Perspective;
+import net.runelite.api.Quest;
+import net.runelite.api.QuestState;
 import net.runelite.api.Skill;
 import net.runelite.api.coords.LocalPoint;
 import net.runelite.api.events.GameObjectDespawned;
@@ -206,7 +208,18 @@ public class SeaChartOverlay
 
 	private boolean hasTaskRequirement(SeaChartTask task)
 	{
-		return client.getBoostedSkillLevel(Skill.SAILING) >= task.getLevel();
+		if (Quest.PANDEMONIUM.getState(client) != QuestState.FINISHED)
+		{
+			return false;
+		}
+
+		var questRequirement = taskIndex.getTaskQuestRequirement(task);
+		if (questRequirement.getState(client) != QuestState.FINISHED)
+		{
+			return false;
+		}
+
+		return client.getRealSkillLevel(Skill.SAILING) >= task.getLevel();
 	}
 
 	private Color getColor(boolean isTaskCompleted, boolean hasTaskRequirement)

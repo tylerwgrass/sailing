@@ -12,6 +12,7 @@ import javax.inject.Singleton;
 import lombok.extern.slf4j.Slf4j;
 import net.runelite.api.GameObject;
 import net.runelite.api.NPC;
+import net.runelite.api.Quest;
 import net.runelite.api.coords.WorldPoint;
 import net.runelite.api.gameval.ItemID;
 import net.runelite.api.gameval.NpcID;
@@ -193,5 +194,35 @@ public class SeaChartTaskIndex implements PluginLifecycleComponent
 			default:
 				return itemManager.getImage(ItemID.SAILING_LOG_INITIAL);
 		}
+	}
+
+	public Quest getTaskQuestRequirement(SeaChartTask task)
+	{
+		switch (task.getObjectId())
+		{
+			case ObjectID.SAILING_CHARTING_HINT_MARKER_DUCK:
+				return Quest.CURRENT_AFFAIRS;
+			case ObjectID.SAILING_CHARTING_DRINK_CRATE:
+				return Quest.PRYING_TIMES;
+			case -1:
+				break;
+			case ObjectID.SAILING_CHARTING_HINT_MARKER_SPYGLASS:
+			default:
+				return Quest.PANDEMONIUM;
+		}
+
+		switch (task.getNpcId())
+		{
+			case NpcID.SAILING_CHARTING_MERMAID_GUIDE_1:
+			case NpcID.SAILING_CHARTING_MERMAID_GUIDE_2:
+			case NpcID.SAILING_CHARTING_MERMAID_GUIDE_3:
+			case NpcID.SAILING_CHARTING_MERMAID_GUIDE_4:
+			case NpcID.SAILING_CHARTING_MERMAID_GUIDE_5:
+				return Quest.RECIPE_FOR_DISASTER__PIRATE_PETE;
+			case NpcID.SAILING_CHARTING_WEATHER_TROLL:
+			default:
+				return Quest.PANDEMONIUM;
+		}
+
 	}
 }

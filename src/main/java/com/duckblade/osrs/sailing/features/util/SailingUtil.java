@@ -78,5 +78,4 @@ public class SailingUtil
 			getTopLevelLocalPoint(client, boatTracker)
 		);
 	}
-
 }
