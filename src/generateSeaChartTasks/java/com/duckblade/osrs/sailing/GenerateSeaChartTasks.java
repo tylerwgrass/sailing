@@ -102,12 +102,13 @@ public class GenerateSeaChartTasks
 					System.out.print(dstX);
 					System.out.print(", ");
 					System.out.print(dstY);
-					System.out.print(", 0), ");
+					System.out.print(", 0)");
 				}
 				else
 				{
-					System.out.print("null, ");
+					System.out.print("null");
 				}
+				System.out.print(", ");
 				System.out.print(level);
 				System.out.println("),");
 			}

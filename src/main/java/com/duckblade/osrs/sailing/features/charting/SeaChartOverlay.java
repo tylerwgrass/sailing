@@ -99,7 +99,7 @@ public class SeaChartOverlay
 			GameObject obj = tracked.getKey();
 			SeaChartTask task = tracked.getValue();
 
-			boolean completed = isTaskCompleted(task);
+			boolean completed = task.isComplete(client);
 			boolean meetsRequirements = hasTaskRequirement(task);
 			if (!shouldRenderOverlay(mode, completed, meetsRequirements))
 			{
@@ -120,7 +120,7 @@ public class SeaChartOverlay
 			NPC npc = tracked.getKey();
 			SeaChartTask task = tracked.getValue();
 
-			boolean completed = isTaskCompleted(task);
+			boolean completed = task.isComplete(client);
 			boolean meetsRequirements = hasTaskRequirement(task);
 			if (!shouldRenderOverlay(mode, completed, meetsRequirements))
 			{
@@ -199,11 +199,6 @@ public class SeaChartOverlay
 		{
 			chartObjects.clear();
 		}
-	}
-
-	private boolean isTaskCompleted(SeaChartTask task)
-	{
-		return client.getVarbitValue(task.getCompletionVarb()) != 0;
 	}
 
 	private boolean hasTaskRequirement(SeaChartTask task)
