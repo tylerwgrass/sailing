@@ -102,6 +102,14 @@ public interface SailingConfig extends Config
 		return true;
 	}
 
+	enum CrewmateMuteMode
+	{
+		NONE,
+		OTHER_BOATS,
+		ALL,
+		;
+	}
+
 	@ConfigItem(
 		keyName = "crewmatesMuteOverheads",
 		name = "Mute Overhead Text",
@@ -136,6 +144,16 @@ public interface SailingConfig extends Config
 	default boolean prioritizeCargoHold()
 	{
 		return true;
+	}
+
+	enum ShowChartsMode
+	{
+		NONE,
+		REQUIREMENTS_MET,
+		UNCHARTED,
+		CHARTED,
+		ALL,
+		;
 	}
 
 	@ConfigItem(
@@ -261,24 +279,6 @@ public interface SailingConfig extends Config
 	default boolean cargoHoldShowCounts()
 	{
 		return true;
-	}
-
-	enum CrewmateMuteMode
-	{
-		NONE,
-		OTHER_BOATS,
-		ALL,
-		;
-	}
-
-	enum ShowChartsMode
-	{
-		NONE,
-		REQUIREMENTS_MET,
-		UNCHARTED,
-		CHARTED,
-		ALL,
-		;
 	}
 
 }
