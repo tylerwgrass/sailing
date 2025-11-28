@@ -4,6 +4,7 @@ import com.duckblade.osrs.sailing.SailingConfig;
 import com.duckblade.osrs.sailing.features.facilities.CargoHoldTracker;
 import com.duckblade.osrs.sailing.features.facilities.LuffOverlay;
 import com.duckblade.osrs.sailing.features.facilities.SpeedBoostInfoBox;
+import com.duckblade.osrs.sailing.features.navigation.LightningCloudsOverlay;
 import com.duckblade.osrs.sailing.features.navigation.RapidsOverlay;
 import com.duckblade.osrs.sailing.features.barracudatrials.LostCargoHighlighter;
 import com.duckblade.osrs.sailing.features.charting.CurrentDuckTaskTracker;
@@ -58,6 +59,7 @@ public class SailingModule extends AbstractModule
 		CurrentDuckTaskTracker currentDuckTaskTracker,
 		DeprioSailsOffHelm deprioSailsOffHelm,
 		GiantClam giantClam,
+		LightningCloudsOverlay lightningCloudsOverlay,
 		LostCargoHighlighter lostCargoHighlighter,
 		LostShipment lostShipment,
 		LuffOverlay luffOverlay,
@@ -84,6 +86,7 @@ public class SailingModule extends AbstractModule
 			.add(currentDuckTaskTracker)
 			.add(deprioSailsOffHelm)
 			.add(giantClam)
+			.add(lightningCloudsOverlay)
 			.add(lostCargoHighlighter)
 			.add(lostShipment)
 			.add(luffOverlay)
