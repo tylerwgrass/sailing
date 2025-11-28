@@ -9,6 +9,7 @@ import com.duckblade.osrs.sailing.features.facilities.SpeedBoostInfoBox;
 import com.duckblade.osrs.sailing.features.navigation.LightningCloudsOverlay;
 import com.duckblade.osrs.sailing.features.navigation.RapidsOverlay;
 import com.duckblade.osrs.sailing.features.barracudatrials.LostCargoHighlighter;
+import com.duckblade.osrs.sailing.features.barracudatrials.TemporTantrumHelper;
 import com.duckblade.osrs.sailing.features.charting.CurrentDuckTaskTracker;
 import com.duckblade.osrs.sailing.features.charting.SeaChartOverlay;
 import com.duckblade.osrs.sailing.features.charting.SeaChartPanelOverlay;
@@ -63,6 +64,7 @@ public class SailingModule extends AbstractModule
 		GiantClam giantClam,
 		HidePortalTransitions hidePortalTransitions,
 		JubblyJiveHelper jubblyJiveHelper,
+		TemporTantrumHelper temporTantrumHelper,
 		LightningCloudsOverlay lightningCloudsOverlay,
 		LostCargoHighlighter lostCargoHighlighter,
 		LostShipment lostShipment,
@@ -92,6 +94,7 @@ public class SailingModule extends AbstractModule
 			.add(giantClam)
 			.add(hidePortalTransitions)
 			.add(jubblyJiveHelper)
+			.add(temporTantrumHelper)
 			.add(lightningCloudsOverlay)
 			.add(lostCargoHighlighter)
 			.add(lostShipment)

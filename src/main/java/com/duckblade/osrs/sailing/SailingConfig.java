@@ -375,11 +375,23 @@ public interface SailingConfig extends Config
 	}
 
 	@ConfigItem(
+		keyName = "barracudaTemporTantrumShowRumTarget",
+		name = "TT: Show Rum Target",
+		description = "Show whether you have rum/need to drop-off rum in the Tempor Tantrum course.",
+		section = SECTION_BARRACUDA_TRIALS,
+		position = 4
+	)
+	default boolean barracudaTemporTantrumShowRumTarget()
+	{
+		return true;
+	}
+
+	@ConfigItem(
 			keyName = "barracudaJubblyJiveShowToadyTargets",
 			name = "JJ: Show Toady Targets",
 			description = "Show which outcrops need toadies thrown at them in the Jubbly Jive course.",
 			section = SECTION_BARRACUDA_TRIALS,
-			position = 4
+			position = 5
 	)
 	default boolean barracudaJubblyJiveShowToadyTargets()
 	{
