@@ -423,13 +423,13 @@ public interface SailingConfig extends Config
 	}
 
 	@ConfigItem(
-		keyName = "courierItemPickupOffOverlayColor",
+		keyName = "courierItemPickupOverlayColor",
 		name = "Pickup Table Colour",
 		description = "Colour to highlight the pickup table",
 		section = SECTION_COURIER_TASKS,
 		position = 3
 	)
-	default Color courierItemPickupOffOverlayColor()
+	default Color courierItemPickupOverlayColor()
 	{
 		return Color.GREEN;
 	};

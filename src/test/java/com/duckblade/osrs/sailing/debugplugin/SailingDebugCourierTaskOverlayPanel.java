@@ -1,7 +1,7 @@
 package com.duckblade.osrs.sailing.debugplugin;
 
+import com.duckblade.osrs.sailing.features.courier.CourierTaskTracker;
 import com.duckblade.osrs.sailing.model.CourierTask;
-import com.duckblade.osrs.sailing.features.util.CourierTaskUtil;
 import com.google.inject.Inject;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -19,11 +19,14 @@ public class SailingDebugCourierTaskOverlayPanel extends OverlayPanel
 {
 
 	private final Client client;
+	private final CourierTaskTracker taskTracker;
 
 	@Inject
-	public SailingDebugCourierTaskOverlayPanel(Client client)
+	public SailingDebugCourierTaskOverlayPanel(Client client, CourierTaskTracker taskTracker)
 	{
 		this.client = client;
+		this.taskTracker = taskTracker;
+
 		setPreferredPosition(OverlayPosition.ABOVE_CHATBOX_RIGHT);
 		setLayer(OverlayLayer.ALWAYS_ON_TOP);
 	}
@@ -35,10 +38,10 @@ public class SailingDebugCourierTaskOverlayPanel extends OverlayPanel
 			.add(TitleComponent.builder()
 				.text("Courier Tasks")
 				.build());
-		var tasks = CourierTaskUtil.getCurrentTasks(client);
 
-		for (CourierTask task : tasks)
+		for (CourierTask task : taskTracker.getTasks())
 		{
+			log.debug("{}", task);
 			getPanelComponent().getChildren()
 				.add(LineComponent.builder()
 					.left(task.getFromPort().getShortCode())

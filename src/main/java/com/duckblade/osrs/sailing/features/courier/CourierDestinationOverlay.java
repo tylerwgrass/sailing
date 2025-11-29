@@ -26,12 +26,14 @@ public class CourierDestinationOverlay
 {
 
 	private final Client client;
+	private final CourierTaskTracker taskTracker;
 
 	@Inject
-	public CourierDestinationOverlay(Client client)
+	public CourierDestinationOverlay(Client client, CourierTaskTracker taskTracker)
 	{
 		super();
 		this.client = client;
+		this.taskTracker = taskTracker;
 
 		showOnInventory();
 		showOnEquipment();
@@ -48,8 +50,7 @@ public class CourierDestinationOverlay
 	@Override
 	public void renderItemOverlay(Graphics2D graphics, int itemId, WidgetItem widgetItem)
 	{
-		var tasks = CourierTaskUtil.getCurrentTasks(client);
-		CourierTask task = CourierTaskUtil.getTaskForItemID(tasks, itemId);
+		CourierTask task = taskTracker.getTaskForItemID(itemId);
 
 		if (task == null)
 		{

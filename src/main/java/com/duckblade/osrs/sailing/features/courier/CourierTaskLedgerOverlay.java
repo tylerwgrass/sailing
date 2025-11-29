@@ -1,7 +1,6 @@
 package com.duckblade.osrs.sailing.features.courier;
 
 import com.duckblade.osrs.sailing.SailingConfig;
-import com.duckblade.osrs.sailing.features.util.CourierTaskUtil;
 import com.duckblade.osrs.sailing.model.CourierTask;
 import com.duckblade.osrs.sailing.model.Port;
 import com.duckblade.osrs.sailing.module.PluginLifecycleComponent;
@@ -9,17 +8,11 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics2D;
 import java.awt.Shape;
-import java.util.Arrays;
-import java.util.Set;
-import java.util.stream.Collectors;
+import java.util.List;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 import lombok.extern.slf4j.Slf4j;
-import net.runelite.api.Client;
 import net.runelite.api.GameObject;
-import net.runelite.api.events.GameObjectDespawned;
-import net.runelite.api.events.GameObjectSpawned;
-import net.runelite.client.eventbus.Subscribe;
 import net.runelite.client.ui.overlay.Overlay;
 import net.runelite.client.ui.overlay.OverlayUtil;
 
@@ -29,59 +22,39 @@ public class CourierTaskLedgerOverlay
 	extends Overlay
 	implements PluginLifecycleComponent
 {
-	private static final Set<Integer> LEDGER_TABLE_IDS = Arrays.stream(Port.values()).map(Port::getLedgerTableID).collect(Collectors.toSet());
-	private final Client client;
 	private final SailingConfig config;
 
-	private GameObject activeLedger;
-	private Port activePort;
+	private CourierTaskTracker taskTracker;
+	private Color ledgerPickupColour;
+	private Color ledgerDropOffColour;
 
 	@Inject
-	public CourierTaskLedgerOverlay(Client client, SailingConfig config)
+	public CourierTaskLedgerOverlay(SailingConfig config, CourierTaskTracker taskTracker)
 	{
 		super();
-		this.client = client;
+		this.taskTracker = taskTracker;
 		this.config = config;
 	}
 
 	@Override
 	public boolean isEnabled(SailingConfig config)
 	{
+		ledgerPickupColour = config.courierItemPickupOverlayColor();
+		ledgerDropOffColour = config.courierItemDropOffOverlayColor();
 		return config.courierItemShowDropOffOverlay() || config.courierItemShowPickupOverlay();
 	}
 
-	@Subscribe
-	public void onGameObjectSpawned(GameObjectSpawned e)
-	{
-		int id = e.getGameObject().getId();
-		if (LEDGER_TABLE_IDS.contains(id))
-		{
-			activeLedger = e.getGameObject();
-			activePort = Port.findByLedgerTableID(id);
-		}
-	}
-
-	@Subscribe
-	public void onGameObjectDespawned(GameObjectDespawned e)
-	{
-		int id = e.getGameObject().getId();
-		if (LEDGER_TABLE_IDS.contains(id))
-		{
-			activeLedger = null;
-			activePort = null;
-		}
-	}
 
 	@Override
 	public Dimension render(Graphics2D graphics)
 	{
-		if (activePort == null)
+		Port activePort = taskTracker.getActivePort();
+		GameObject activeLedger = taskTracker.getActiveLedger();
+
+		if (activePort == null || activeLedger == null)
 		{
 			return null;
 		}
-
-		var tasks = CourierTaskUtil.getCurrentTasks(client);
-		var dropOffTasks = CourierTaskUtil.getDropOffTasksForPort(tasks, activePort);
 
 		Shape hull = activeLedger.getConvexHull();
 		if (hull == null)
@@ -89,18 +62,18 @@ public class CourierTaskLedgerOverlay
 			return null;
 		}
 
-		var pickupTasks = CourierTaskUtil.getPickupTasksForPort(tasks, activePort);
+		List<CourierTask> pickupTasks = taskTracker.getPickupTasksForPort(activePort);
 		boolean allCargoRetrieved = pickupTasks.stream().allMatch(CourierTask::hasRetrievedAllCargo);
-
 		if (!allCargoRetrieved && config.courierItemShowPickupOverlay())
 		{
-			OverlayUtil.renderPolygon(graphics, hull, config.courierItemPickupOffOverlayColor());
+			OverlayUtil.renderPolygon(graphics, hull, ledgerPickupColour);
 		}
 
+		List<CourierTask> dropOffTasks = taskTracker.getDropOffTasksForPort(activePort);
 		boolean allCargoDelivered = dropOffTasks.stream().allMatch(CourierTask::hasDeliveredAllCargo);
 		if (!allCargoDelivered && config.courierItemShowDropOffOverlay())
 		{
-			OverlayUtil.renderPolygon(graphics, hull, config.courierItemDropOffOverlayColor());
+			OverlayUtil.renderPolygon(graphics, hull, ledgerDropOffColour);
 		}
 
 		return null;
