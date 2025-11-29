@@ -31,21 +31,23 @@ public class CourierTaskLedgerOverlay
 {
 	private static final Set<Integer> LEDGER_TABLE_IDS = Arrays.stream(Port.values()).map(Port::getLedgerTableID).collect(Collectors.toSet());
 	private final Client client;
+	private final SailingConfig config;
 
 	private GameObject activeLedger;
 	private Port activePort;
 
 	@Inject
-	public CourierTaskLedgerOverlay(Client client)
+	public CourierTaskLedgerOverlay(Client client, SailingConfig config)
 	{
 		super();
 		this.client = client;
+		this.config = config;
 	}
 
 	@Override
 	public boolean isEnabled(SailingConfig config)
 	{
-		return config.courierItemIdentification();
+		return config.courierItemShowDropOffOverlay() || config.courierItemShowPickupOverlay();
 	}
 
 	@Subscribe
@@ -90,15 +92,15 @@ public class CourierTaskLedgerOverlay
 		var pickupTasks = CourierTaskUtil.getPickupTasksForPort(tasks, activePort);
 		boolean allCargoRetrieved = pickupTasks.stream().allMatch(CourierTask::hasRetrievedAllCargo);
 
-		if (!allCargoRetrieved)
+		if (!allCargoRetrieved && config.courierItemShowPickupOverlay())
 		{
-			OverlayUtil.renderPolygon(graphics, hull, Color.GREEN);
+			OverlayUtil.renderPolygon(graphics, hull, config.courierItemPickupOffOverlayColor());
 		}
 
 		boolean allCargoDelivered = dropOffTasks.stream().allMatch(CourierTask::hasDeliveredAllCargo);
-		if (!allCargoDelivered)
+		if (!allCargoDelivered && config.courierItemShowDropOffOverlay())
 		{
-			OverlayUtil.renderPolygon(graphics, hull, Color.RED);
+			OverlayUtil.renderPolygon(graphics, hull, config.courierItemDropOffOverlayColor());
 		}
 
 		return null;

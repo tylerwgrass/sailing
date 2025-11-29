@@ -411,6 +411,54 @@ public interface SailingConfig extends Config
 	}
 
 	@ConfigItem(
+		keyName = "courierItemShowPickupOverlay",
+		name = "Highlight Pickup Table",
+		description = "Highlight the ledger table if there is cargo to be picked up",
+		section = SECTION_COURIER_TASKS,
+		position = 2
+	)
+	default boolean courierItemShowPickupOverlay()
+	{
+		return true;
+	}
+
+	@ConfigItem(
+		keyName = "courierItemPickupOffOverlayColor",
+		name = "Pickup Table Colour",
+		description = "Colour to highlight the pickup table",
+		section = SECTION_COURIER_TASKS,
+		position = 3
+	)
+	default Color courierItemPickupOffOverlayColor()
+	{
+		return Color.GREEN;
+	};
+
+	@ConfigItem(
+		keyName = "courierItemShowDropOffOverlay",
+		name = "Highlight Drop Off Table",
+		description = "Highlight the ledger table if there is cargo to be dropped off",
+		section = SECTION_COURIER_TASKS,
+		position = 4
+	)
+	default boolean courierItemShowDropOffOverlay()
+	{
+		return true;
+	};
+
+	@ConfigItem(
+		keyName = "courierItemDropOffOverlayColor",
+		name = "Drop Off Table Colour",
+		description = "Colour to highlight the drop off table",
+		section = SECTION_COURIER_TASKS,
+		position = 5
+	)
+	default Color courierItemDropOffOverlayColor()
+	{
+		return Color.RED;
+	};
+
+	@ConfigItem(
 		keyName = "salvagingHighlightActiveWrecks",
 		name = "Highlight Active Locations",
 		description = "Whether to highlight active shipwrecks.",
