@@ -41,6 +41,9 @@ public class SailingDebugPlugin extends Plugin
 	@Inject
 	private SailingDebugFacilitiesOverlay facilitiesOverlay;
 
+	@Inject
+	private SailingDebugCourierTaskOverlayPanel courierTaskOverlayPanel;
+
 	private List<?> components;
 
 	@Override
@@ -48,6 +51,7 @@ public class SailingDebugPlugin extends Plugin
 	{
 		components = Arrays.asList(
 			boatInfoOverlayPanel,
+			courierTaskOverlayPanel,
 			localBoatInfoOverlayPanel,
 			tlwpOverlay,
 			facilitiesOverlay
