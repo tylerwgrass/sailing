@@ -1,6 +1,6 @@
 package com.duckblade.osrs.sailing.features.util;
 
-import com.duckblade.osrs.sailing.model.CourierTaskInfo;
+import com.duckblade.osrs.sailing.model.CourierTask;
 import com.duckblade.osrs.sailing.model.Port;
 import com.google.common.collect.ImmutableList;
 import java.util.HashSet;
@@ -45,12 +45,12 @@ public class CourierTaskUtil
 		VarbitID.PORT_TASK_SLOT_4_CARGO_DELIVERED
 	);
 
-	public static Set<CourierTaskInfo> getCurrentTasks(Client client)
+	public static Set<CourierTask> getCurrentTasks(Client client)
 	{
-		Set<CourierTaskInfo> tasks = new HashSet<>();
+		Set<CourierTask> tasks = new HashSet<>();
 		for (int i = 0; i < TASK_SLOT_IDS.size(); i++)
 		{
-			CourierTaskInfo task = getTaskInfo(client, i);
+			CourierTask task = getTaskInfo(client, i);
 			if (task != null)
 			{
 				tasks.add(task);
@@ -60,7 +60,7 @@ public class CourierTaskUtil
 		return tasks;
 	}
 
-	public static CourierTaskInfo getTaskInfo(Client client, int taskIndex)
+	public static CourierTask getTaskInfo(Client client, int taskIndex)
 	{
 		int taskID = client.getVarbitValue(TASK_SLOT_IDS.get(taskIndex));
 		List<Integer> taskRow = client.getDBRowsByValue(DBTableID.PortTask.ID, DBTableID.PortTask.COL_TASK_ID, 0, taskID);
@@ -80,6 +80,7 @@ public class CourierTaskUtil
 		int fromPortID = (int) client.getDBTableField(rowID, DBTableID.PortTask.COL_CARGO_PORT, 0)[0];
 		int toPortID = (int) client.getDBTableField(rowID, DBTableID.PortTask.COL_ENDING_PORT, 0)[0];
 		int cargoAmount = (int) client.getDBTableField(rowID, DBTableID.PortTask.COL_CARGO, 1)[0];
+		int cargoCrateItemID = (int) client.getDBTableField(rowID, DBTableID.PortTask.COL_CARGO, 0)[0];
 
 		Port fromPort = Port.findByID(fromPortID);
 		Port toPort = Port.findByID(toPortID);
@@ -87,16 +88,21 @@ public class CourierTaskUtil
 		int numRetrieved = client.getVarbitValue(CARGO_RETRIEVED_VARBITS.get(taskIndex));
 		int numDelivered = client.getVarbitValue(CARGO_DELIVERED_VARBITS.get(taskIndex));
 
-		return new CourierTaskInfo(taskIndex, fromPort, toPort, cargoAmount, numRetrieved, numDelivered);
+		return new CourierTask(taskIndex, fromPort, toPort, cargoCrateItemID, cargoAmount, numRetrieved, numDelivered);
 	}
 
-	public static List<CourierTaskInfo> getDropOffTasksForPort(Set<CourierTaskInfo> tasks, Port port)
+	public static List<CourierTask> getDropOffTasksForPort(Set<CourierTask> tasks, Port port)
 	{
 		return tasks.stream().filter(task -> task.getToPort() == port).collect(Collectors.toList());
 	}
 
-	public static List<CourierTaskInfo> getPickupTasksForPort(Set<CourierTaskInfo> tasks, Port port)
+	public static List<CourierTask> getPickupTasksForPort(Set<CourierTask> tasks, Port port)
 	{
 		return tasks.stream().filter(task -> task.getFromPort() == port).collect(Collectors.toList());
+	}
+
+	public static CourierTask getTaskForItemID(Set<CourierTask> tasks, int itemID)
+	{
+		return tasks.stream().filter(task -> task.getCargoCrateItemID() == itemID).findFirst().orElse(null);
 	}
 }

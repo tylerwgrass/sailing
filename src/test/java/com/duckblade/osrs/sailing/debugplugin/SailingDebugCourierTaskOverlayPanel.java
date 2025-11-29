@@ -1,6 +1,6 @@
 package com.duckblade.osrs.sailing.debugplugin;
 
-import com.duckblade.osrs.sailing.model.CourierTaskInfo;
+import com.duckblade.osrs.sailing.model.CourierTask;
 import com.duckblade.osrs.sailing.features.util.CourierTaskUtil;
 import com.google.inject.Inject;
 import java.awt.Color;
@@ -37,7 +37,7 @@ public class SailingDebugCourierTaskOverlayPanel extends OverlayPanel
 				.build());
 		var tasks = CourierTaskUtil.getCurrentTasks(client);
 
-		for (CourierTaskInfo task : tasks)
+		for (CourierTask task : tasks)
 		{
 			getPanelComponent().getChildren()
 				.add(LineComponent.builder()

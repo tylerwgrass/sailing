@@ -2,7 +2,7 @@ package com.duckblade.osrs.sailing.features.courier;
 
 import com.duckblade.osrs.sailing.SailingConfig;
 import com.duckblade.osrs.sailing.features.util.CourierTaskUtil;
-import com.duckblade.osrs.sailing.model.CourierTaskInfo;
+import com.duckblade.osrs.sailing.model.CourierTask;
 import com.duckblade.osrs.sailing.model.Port;
 import com.duckblade.osrs.sailing.module.PluginLifecycleComponent;
 import java.awt.Color;
@@ -88,14 +88,14 @@ public class CourierTaskLedgerOverlay
 		}
 
 		var pickupTasks = CourierTaskUtil.getPickupTasksForPort(tasks, activePort);
-		boolean allCargoRetrieved = pickupTasks.stream().allMatch(CourierTaskInfo::hasRetrievedAllCargo);
+		boolean allCargoRetrieved = pickupTasks.stream().allMatch(CourierTask::hasRetrievedAllCargo);
 
 		if (!allCargoRetrieved)
 		{
 			OverlayUtil.renderPolygon(graphics, hull, Color.GREEN);
 		}
 
-		boolean allCargoDelivered = dropOffTasks.stream().allMatch(CourierTaskInfo::hasDeliveredAllCargo);
+		boolean allCargoDelivered = dropOffTasks.stream().allMatch(CourierTask::hasDeliveredAllCargo);
 		if (!allCargoDelivered)
 		{
 			OverlayUtil.renderPolygon(graphics, hull, Color.RED);
